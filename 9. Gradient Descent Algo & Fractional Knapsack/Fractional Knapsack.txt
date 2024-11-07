@@ -1,0 +1,43 @@
+#DAA 3 - Fractional Knapsack Problem
+
+# Class to represent an item with value and weight
+class Item:
+    def __init__(self, value, weight):
+        self.value = value
+        self.weight = weight
+
+# Function to calculate the maximum value that can be carried
+def fractional_knapsack(items, capacity):
+    # Sort items by value-to-weight ratio in descending order
+    items.sort(key=lambda item: item.value / item.weight, reverse=True)
+    total_value = 0.0  # To store the total value
+    for item in items:
+        if capacity >= item.weight:
+            # If the item can fit in the remaining capacity, take it all
+            capacity -= item.weight
+            total_value += item.value
+        else:
+            # Otherwise, take the fraction of the item that fits
+            fraction = capacity / item.weight
+            total_value += item.value * fraction
+            break  # The knapsack is full
+    return total_value
+
+# Driver code for user input
+if __name__ == "__main__":
+    # Step 1: Input number of items
+    n = int(input("Enter the number of items: "))
+
+    items = []
+    # Step 2: Input value and weight for each item
+    for i in range(n):
+        value = float(input(f"Enter value of item {i + 1}: "))
+        weight = float(input(f"Enter weight of item {i + 1}: "))
+        items.append(Item(value, weight))
+
+    # Step 3: Input the capacity of the knapsack
+    capacity = float(input("Enter the capacity of the knapsack: "))
+
+    # Step 4: Calculate and print the maximum value
+    max_value = fractional_knapsack(items, capacity)
+    print(f"Maximum value we can obtain = {max_value}")

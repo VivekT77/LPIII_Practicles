@@ -1,0 +1,115 @@
+#DAA 3 - Fractional Knapsack Problem
+
+# Class to represent an item with value and weight
+class Item:
+    def __init__(self, value, weight):
+        self.value = value
+        self.weight = weight
+
+# Function to calculate the maximum value that can be carried
+def fractional_knapsack(items, capacity):
+    # Sort items by value-to-weight ratio in descending order
+    items.sort(key=lambda item: item.value / item.weight, reverse=True)
+    total_value = 0.0  # To store the total value
+    for item in items:
+        if capacity >= item.weight:
+            # If the item can fit in the remaining capacity, take it all
+            capacity -= item.weight
+            total_value += item.value
+        else:
+            # Otherwise, take the fraction of the item that fits
+            fraction = capacity / item.weight
+            total_value += item.value * fraction
+            break  # The knapsack is full
+    return total_value
+
+# Driver code for user input
+if __name__ == "__main__":
+    # Step 1: Input number of items
+    n = int(input("Enter the number of items: "))
+
+    items = []
+    # Step 2: Input value and weight for each item
+    for i in range(n):
+        value = float(input(f"Enter value of item {i + 1}: "))
+        weight = float(input(f"Enter weight of item {i + 1}: "))
+        items.append(Item(value, weight))
+
+    # Step 3: Input the capacity of the knapsack
+    capacity = float(input("Enter the capacity of the knapsack: "))
+
+    # Step 4: Calculate and print the maximum value
+    max_value = fractional_knapsack(items, capacity)
+    print(f"Maximum value we can obtain = {max_value}")
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------
+
+
+// Student Marks
+
+
+
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.7.0 <0.8.0;
+
+// Build the Contract
+contract MarksManagmtSys {
+    // Create a structure for student details
+    struct Student {
+        int ID;
+        string fName;
+        string lName;
+        int marks;
+    }
+
+    // Owner of the contract
+    address owner;
+
+    // Public student count
+    int public stdCount = 0;
+
+    // Mapping to store student records
+    mapping(int => Student) public stdRecords;
+
+    // Modifier to allow only the owner to execute certain functions
+    modifier onlyOwner {
+        require(owner == msg.sender, "Only the contract owner can execute this");
+        _;
+    }
+
+    // Constructor to set the contract deployer as the owner
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // Function to add new records
+    function addNewRecords(
+        int _ID,
+        string memory _fName,
+        string memory _lName,
+        int _marks
+    ) public onlyOwner {
+        // Increase the student count by 1
+        stdCount = stdCount + 1;
+
+        // Add the new student record to the mapping
+        stdRecords[stdCount] = Student(_ID, _fName, _lName, _marks);
+    }
+
+    // Function to add bonus marks to the latest student record
+    function bonusMarks(int _bonus) public onlyOwner {
+        // Ensure there is at least one student before adding bonus marks
+        require(stdCount > 0, "No student records available");
+
+        // Add bonus marks to the last student's record
+        stdRecords[stdCount].marks = stdRecords[stdCount].marks + _bonus;
+    }
+}
+
+
+

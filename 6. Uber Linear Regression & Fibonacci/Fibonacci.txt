@@ -1,0 +1,27 @@
+#DAA 1 - Fibonacci Numbers
+
+def fibonacci_non_recursive(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    a, b = 0, 1
+    for i in range(2, n + 1):
+        fib = a + b
+        a = b
+        b = fib
+    return b
+
+def fibonacci_recursive(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2)
+
+# Taking user input
+n = int(input("Enter a number: "))
+
+print("Non-recursive Fibonacci result for the following number is:", fibonacci_non_recursive(n))
+print("Recursive Fibonacci result for the following number is::", fibonacci_recursive(n))
